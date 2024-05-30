@@ -1,4 +1,5 @@
 Bugs
+- Infinite loop in App.tsx
 - Wrong order of countries (not in alphabetical order)
 - Polygon stays selected even when coresponding country or continent is no longer selected (not sure if it is a bug)
 - Autocomplete can't handle every polygon and causes the site to freeze for a few seconds

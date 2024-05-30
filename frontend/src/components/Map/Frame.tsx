@@ -1,6 +1,7 @@
 import Plotly from 'plotly.js-dist-min'
 import {ReactElement, useEffect} from "react";
 import {Button} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 
 type FrameProps = {
   clickedPolygon: number;
@@ -35,8 +36,13 @@ const Frame = ({
   useEffect(() => {
      if (clickedPolygon > 0) {
        const frame = document.getElementById('frame');
-       console.log('end value:', getEndValue(clickedPolygon))
-       Plotly.newPlot( frame, [generatePlotData((x) => Math.pow(x, clickedPolygon), 0, getEndValue(clickedPolygon), getEndValue(clickedPolygon)/100)]);
+       Plotly.newPlot( frame,
+         [
+           generatePlotData((x) => Math.pow(x, clickedPolygon),
+             0,
+             getEndValue(clickedPolygon),
+             getEndValue(clickedPolygon)/100)]
+       );
      }
   }, [clickedPolygon]);
 
@@ -56,7 +62,9 @@ const Frame = ({
     >
       <div style={{display: "flex", justifyContent:"space-between", width: "100%"}}>
         <h3>Polygon Plot: f(x) = x^{clickedPolygon}</h3>
-        <Button onClick={() => setClickedPolygon(-1)}>x</Button>
+        <Button onClick={() => setClickedPolygon(-1)}>
+          <CloseIcon />
+        </Button>
       </div>
       <div id='frame' style={{flex: "1"}} />
     </div>

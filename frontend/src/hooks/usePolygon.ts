@@ -60,7 +60,7 @@ const usePolygon = (selectedPolygons: number[]) => {
         });
     }
     setLoading(false);
-  }, [abortController, polygonData, selectedPolygons]);
+  }, [selectedPolygons]);
 
   return { polygonData, polygonLoading, polygonError };
 };

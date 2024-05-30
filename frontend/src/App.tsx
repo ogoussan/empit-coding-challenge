@@ -21,13 +21,8 @@ const App = (): ReactElement => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        margin: "0 70px",
       }}
     >
-      <Form
-        selectedPolygonIds={selectedPolygonIds}
-        setSelectedPolygonIds={setSelectedPolygonIds}
-      />
       <div style={{ position: "relative" }}>
         <div>
           <Map polygons={polygonData} setClickedPolygon={setClickedPolygon} />
@@ -48,6 +43,10 @@ const App = (): ReactElement => {
           )}
         </Backdrop>
       </div>
+      <Form
+        selectedPolygonIds={selectedPolygonIds}
+        setSelectedPolygonIds={setSelectedPolygonIds}
+      />
     </div>
   );
 };

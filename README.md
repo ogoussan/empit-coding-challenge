@@ -65,3 +65,12 @@ Run the React app:
 ```console
 npm run dev
 ```
+
+## My Changes
+
+- Sorted continents and countries alphabetically
+- Fixed the bug where polygons stay highlighted even when corresponding country or continent is no longer selected
+- Added virtualization to `Dropdown` component, so it can handle the large amount of polygons (+4000 polygons)
+- Display selected option as tag with a tag limit
+- Scroll to zoom in and out
+- Map fills entire width and height and form is rendered as overlay

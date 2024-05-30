@@ -51,7 +51,7 @@ const Map = ({ polygons, setClickedPolygon }: MapProps): JSX.Element => {
     });
     // GeoJSON does not update on state change otherwise
     setIndex(index + 1);
-  }, [index, polygons]);
+  }, [polygons]);
 
   return (
     <div
@@ -61,8 +61,8 @@ const Map = ({ polygons, setClickedPolygon }: MapProps): JSX.Element => {
     >
       <MapContainer
         style={{
-          height: "70vh",
-          borderRadius: "8px",
+          height: "100vh",
+          width: "100vw",
         }}
         center={[52.52, 13.405]}
         zoom={13}

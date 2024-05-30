@@ -1,13 +1,15 @@
 import {
   Autocomplete,
   Checkbox,
-  Chip,
   TextField,
   Typography,
 } from "@mui/material";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import React, {ReactElement, SyntheticEvent, useMemo, useState} from "react";
+import {ListboxComponent} from "./ListboxComponent.tsx";
+
+const TAGS_LIMIT = 12;
 
 type DropdownProps = {
   options: Option[];
@@ -30,25 +32,39 @@ const Dropdown = ({
   enableSelectAll
 }: DropdownProps): ReactElement => {
   const [open, setOpen] = useState<boolean>(false);
-  const dropdownOptions = useMemo(() =>  enableSelectAll
+  const isEveryOptionSelected = useMemo(() => (
+    options.length &&
+    options.every((option) => selected.includes(option.id))
+  ), [options, selected]);
+  const dropdownOptions = useMemo(() =>  enableSelectAll && options.length
     ? ['Select all', ...options.map((option: Option) => option.name)]
     : options.map((option: Option) => option.name), [enableSelectAll, options]
   );
+  const dropdownValue = useMemo(() => (
+    options
+      .filter(
+        (option: Option) => !!selected.find((id: number) => id === option.id)
+      )
+      .map((option: Option) => option.name)
+  ), [options, selected]);
 
   const handleChange = (
     _: SyntheticEvent<Element, Event>,
-    value: string[]
+    value: string[],
+    reason: string,
   ): void => {
-    if (value.includes('Select all')) {
-      setSelected(options.map((option) => option.id));
-      return;
+    if (!value.includes('Select all') && enableSelectAll && isEveryOptionSelected && reason === 'removeOption') {
+      setSelected([]);
     }
-
-    setSelected(
-      options
-        .filter((option) => value.find((v) => v === option.name))
-        .map((option) => option.id)
-    );
+    else if (value[value.length-1] === 'Select all') {
+      setSelected(options.map((option) => option.id));
+    } else {
+      setSelected(
+        options
+          .filter((option) => value.find((v) => v === option.name))
+          .map((option) => option.id)
+      );
+    }
   };
 
   const renderOption = (
@@ -68,10 +84,6 @@ const Dropdown = ({
     </Typography>
   );
 
-  const renderTags = (value: string[]) => {
-    return <Chip label={value.length} />;
-  };
-
   return (
     <Autocomplete
       open={open}
@@ -87,21 +99,24 @@ const Dropdown = ({
       onChange={handleChange}
       sx={{ width: "100%" }}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label={`${label} List`}
-          placeholder={`Select ${label}`}
-        />
+        <>
+          <Typography variant="subtitle1">
+            {label}
+          </Typography>
+          <TextField
+            {...params}
+            style={{ maxHeight: "40vh", overflowY: "scroll" }}
+          />
+        </>
       )}
+      ListboxComponent={ ListboxComponent as React.ComponentType<
+        React.HTMLAttributes<HTMLElement>
+      >}
       renderOption={renderOption}
-      renderTags={renderTags}
+      limitTags={TAGS_LIMIT}
       selectOnFocus
       value={
-        options
-          .filter(
-            (option: Option) => !!selected.find((id: number) => id === option.id)
-          )
-          .map((option: Option) => option.name)
+        enableSelectAll && isEveryOptionSelected ? ['Select all', ...dropdownValue] : dropdownValue
       }
     />
   );

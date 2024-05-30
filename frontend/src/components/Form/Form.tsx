@@ -1,6 +1,6 @@
-import { Backdrop, CircularProgress } from "@mui/material";
+import {Backdrop, CircularProgress} from "@mui/material";
 import useForm from "../../hooks/useForm";
-import {ReactElement, useEffect, useMemo, useState} from "react";
+import React, {ReactElement, useEffect, useMemo, useState} from "react";
 import { Continent, Country } from "../../types";
 import Dropdown, { Option } from "./Dropdown";
 
@@ -53,15 +53,23 @@ const Form = ({
     }
   }, [countries, polygons, selectedCountryIds, selectedPolygonIds, setSelectedPolygonIds]);
 
-
   return (
     <div
       style={{
         display: "flex",
         justifyContent: "center",
-        width: "100%",
-        position: "relative",
-        margin: "20px 0",
+        maxWidth: "40vw",
+        minWidth: "400px",
+        maxHeight: "50vh",
+        position: "absolute",
+        bottom: "0",
+        left: "0",
+        margin: "24px 24px",
+        padding: "12px",
+        zIndex: "500",
+        backgroundColor: "white",
+        borderRadius: "8px",
+        overflowY: "scroll"
       }}
     >
       <div
@@ -87,7 +95,6 @@ const Form = ({
           label={"Country"}
         />
         <Dropdown
-          enableSelectAll
           options={getOptionsFromNumbers(polygons)}
           selected={selectedPolygonIds}
           setSelected={setSelectedPolygonIds}
